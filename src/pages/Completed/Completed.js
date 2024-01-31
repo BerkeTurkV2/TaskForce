@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 function Completed(){
     return(
         <View>
-            <Text>Selamlarr</Text>
+            <Text>Selamlarrr test</Text>
         </View>
     )
 };
