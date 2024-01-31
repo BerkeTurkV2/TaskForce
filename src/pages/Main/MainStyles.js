@@ -17,6 +17,16 @@ export default StyleSheet.create({
         color: "black",
         fontWeight: "bold",
     },
+    completed: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 12,
+    },
+    completedBox: {
+        backgroundColor: "blue",
+        padding: 8,
+        borderRadius: 14,
+    },
     inputBox: {
         flex: 1,
         flexDirection: "row",
@@ -37,7 +47,6 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center",
         paddingHorizontal: 10,
-        
         marginRight: 6,
         borderRadius: 12,
     },
@@ -50,5 +59,14 @@ export default StyleSheet.create({
         marginLeft: 6,
         borderRadius: 28,
         backgroundColor: "#bc46bc"
+    },
+    taskBox: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        backgroundColor: "gray",
+        padding: 8,
+        marginBottom: 10,
+        borderRadius: 12,
     }
 });
