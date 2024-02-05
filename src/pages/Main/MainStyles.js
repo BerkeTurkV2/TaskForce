@@ -9,7 +9,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
     },
     title: {
-        color: "#344e41",
+        color: "black",
         fontSize: 20,
         fontWeight: "bold",
     },
@@ -79,10 +79,10 @@ export default StyleSheet.create({
         color: "black",
     },
     taskText: {
-        padding: 6,
+        padding: 4,
         color: "black",
     },
     taskEdit: {
-        paddingRight: 4,
-    }
+        paddingRight: 6,
+    },
 });

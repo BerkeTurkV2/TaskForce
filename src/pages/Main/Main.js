@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+
 import Icon from "react-native-vector-icons/Ionicons";
 import Iconx from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -65,7 +68,7 @@ function Main() {
     const addTask = () => {
         if (newTask.trim() !== "") {
             const newTaskItem = { date: currentDate, task: newTask };
-            setTaskList([...taskList, newTaskItem]);
+            setTaskList(prevList => [newTaskItem, ...prevList].sort((a, b) => new Date(b.date) - new Date(a.date)));
             setNewTask("");
         }
     };
@@ -82,9 +85,17 @@ function Main() {
 
     const renderItem = ({ item }) => (
         <View style={styles.taskBox} >
-            <Text style={styles.taskText} >{item}</Text>
-            <TouchableOpacity>
-                <Iconx style={styles.taskEdit} name="dots-vertical" size={22} color={"black"} />
+            <View style={{ flexDirection: "row" }} >
+                <BouncyCheckbox size={25}
+                    fillColor="#344e41"
+                    unfillColor="#FFFFFF"
+                    text={item}
+                    innerIconStyle={{ borderWidth: 2 }}
+                    textStyle={{ color: "black", fontSize: 14 }}
+                    onPress={(isChecked) => {true}} />
+            </View>
+            <TouchableOpacity >
+                <Iconx style={styles.taskEdit} name="delete-sweep-outline" size={20} color={"black"} />
             </TouchableOpacity>
         </View>
     );
@@ -94,30 +105,33 @@ function Main() {
             <Text style={styles.title} >Merhaba</Text>
             <View style={styles.topBox} >
                 <Text style={styles.date} >Bugün, {currentDate} </Text>
-                <TouchableOpacity style={styles.completedBox} onPress={clearAllData} >
+                <TouchableOpacity style={styles.completedBox} onPress={null} >
                     <Text style={styles.completed} >Tamamlananlar</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.row}>
                 <View style={styles.inputBox} >
-                    <TextInput style={styles.input} placeholder='Yeni Görev Yaz' value={newTask} onChangeText={setNewTask} maxLength={42} />
+                    <TextInput style={styles.input} placeholder='Yeni Görev Yaz' value={newTask} onChangeText={setNewTask} maxLength={40} />
                 </View>
                 <TouchableOpacity style={styles.iconBox} onPress={addTask} >
                     <Icon name="send" size={18} color={"white"} />
                 </TouchableOpacity>
             </View>
-
             {/* Görevleri tarihe göre gruplanmış şekilde listele */}
-            {Object.keys(groupedTasks).map((date, index) => (
-                <View key={index}>
-                    <Text style={styles.groupBoxDate} >-{'>'} {date}</Text>
-                    <FlatList
-                        data={groupedTasks[date]}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={renderItem}
-                    />
-                </View>
-            ))}
+            <FlatList
+                data={Object.keys(groupedTasks)}
+                keyExtractor={(date, index) => index.toString()}
+                renderItem={({ item: date }) => (
+                    <View>
+                        <Text style={styles.groupBoxDate}>-{'>'} {date}</Text>
+                        <FlatList
+                            data={groupedTasks[date]}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={renderItem}
+                        />
+                    </View>
+                )}
+            />
         </View>
     )
 };
