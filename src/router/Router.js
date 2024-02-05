@@ -17,7 +17,7 @@ const Tab = createMaterialBottomTabNavigator();
 function Router() {
     return (
         <NavigationContainer>
-            <Tab.Navigator barStyle={{ height: 66, backgroundColor: "white" }} activeColor='#bc46bc' inactiveColor='#595959' shifting={true} >
+            <Tab.Navigator barStyle={{ height: 68, backgroundColor: "white" }} activeColor='#344e41' inactiveColor='#595959' shifting={true} >
                 <Tab.Screen name="Main" component={Main} options={{
                     title: "Görevler",
                     tabBarIcon: () => (

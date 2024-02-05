@@ -3,18 +3,23 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16
+        padding: 16,
     },
     row: {
         flexDirection: 'row',
     },
     title: {
-        color: "black",
+        color: "#344e41",
         fontSize: 20,
         fontWeight: "bold",
     },
+    topBox: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
     date: {
-        color: "black",
+        color: "#344e41",
         fontWeight: "bold",
     },
     completed: {
@@ -23,7 +28,7 @@ export default StyleSheet.create({
         fontSize: 12,
     },
     completedBox: {
-        backgroundColor: "blue",
+        backgroundColor: "#588157",
         padding: 8,
         borderRadius: 14,
     },
@@ -34,7 +39,7 @@ export default StyleSheet.create({
         borderColor: "gray",
         borderRadius: 16,
         marginVertical: 16,
-        backgroundColor: "#f5e5ec"
+        backgroundColor: "white"
     },
     input: {
         paddingLeft: 16,
@@ -58,15 +63,26 @@ export default StyleSheet.create({
         height: 40,
         marginLeft: 6,
         borderRadius: 28,
-        backgroundColor: "#bc46bc"
+        backgroundColor: "#588157"
     },
     taskBox: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "gray",
+        backgroundColor: "#a3b18a",
         padding: 8,
         marginBottom: 10,
         borderRadius: 12,
+    },
+    groupBoxDate: {
+        marginBottom: 8,
+        color: "black",
+    },
+    taskText: {
+        padding: 6,
+        color: "black",
+    },
+    taskEdit: {
+        paddingRight: 4,
     }
 });

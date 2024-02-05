@@ -53,6 +53,15 @@ function Main() {
         saveTasks();
     }, [taskList]);
 
+    const clearAllData = async () => {
+        try {
+            await AsyncStorage.clear();
+            console.log('AsyncStorage verileri temizlendi.');
+        } catch (error) {
+            console.error('AsyncStorage temizleme hatası:', error);
+        }
+    };
+
     const addTask = () => {
         if (newTask.trim() !== "") {
             const newTaskItem = { date: currentDate, task: newTask };
@@ -73,39 +82,35 @@ function Main() {
 
     const renderItem = ({ item }) => (
         <View style={styles.taskBox} >
-            <Text> {item} </Text>
-            <Iconx name="dots-horizontal" size={18} color={"black"} />
+            <Text style={styles.taskText} >{item}</Text>
+            <TouchableOpacity>
+                <Iconx style={styles.taskEdit} name="dots-vertical" size={22} color={"black"} />
+            </TouchableOpacity>
         </View>
-
     );
 
     return (
         <View style={styles.container} >
             <Text style={styles.title} >Merhaba</Text>
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }} >
-                <Text style={styles.date} >Bugün {currentDate}</Text>
-                <TouchableOpacity style={styles.completedBox} >
+            <View style={styles.topBox} >
+                <Text style={styles.date} >Bugün, {currentDate} </Text>
+                <TouchableOpacity style={styles.completedBox} onPress={clearAllData} >
                     <Text style={styles.completed} >Tamamlananlar</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.row}>
                 <View style={styles.inputBox} >
-                    <TextInput style={styles.input} placeholder='Yeni Görev Yaz' value={newTask} onChangeText={setNewTask} />
-                    <TouchableOpacity style={styles.button}>
-                        <Text>
-                            Takvim
-                        </Text>
-                    </TouchableOpacity>
+                    <TextInput style={styles.input} placeholder='Yeni Görev Yaz' value={newTask} onChangeText={setNewTask} maxLength={42} />
                 </View>
                 <TouchableOpacity style={styles.iconBox} onPress={addTask} >
-                    <Icon name="send" size={18} color={"#f5e5ec"} />
+                    <Icon name="send" size={18} color={"white"} />
                 </TouchableOpacity>
             </View>
 
             {/* Görevleri tarihe göre gruplanmış şekilde listele */}
             {Object.keys(groupedTasks).map((date, index) => (
                 <View key={index}>
-                    <Text>{date}</Text>
+                    <Text style={styles.groupBoxDate} >-{'>'} {date}</Text>
                     <FlatList
                         data={groupedTasks[date]}
                         keyExtractor={(item, index) => index.toString()}
