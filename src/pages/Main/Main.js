@@ -9,10 +9,11 @@ import Iconx from "react-native-vector-icons/MaterialCommunityIcons";
 
 import styles from "./MainStyles";
 
-function Main() {
+function Main({ navigation }) {
     const [currentDate, setCurrentDate] = useState("");
     const [newTask, setNewTask] = useState("");
     const [taskList, setTaskList] = useState([]);
+    const [completedTasks, setCompletedTasks] = useState([]);
 
     useEffect(() => {
         const getCurrentDate = () => {
@@ -56,21 +57,17 @@ function Main() {
         saveTasks();
     }, [taskList]);
 
-    const clearAllData = async () => {
-        try {
-            await AsyncStorage.clear();
-            console.log('AsyncStorage verileri temizlendi.');
-        } catch (error) {
-            console.error('AsyncStorage temizleme hatası:', error);
-        }
-    };
-
     const addTask = () => {
         if (newTask.trim() !== "") {
             const newTaskItem = { date: currentDate, task: newTask };
             setTaskList(prevList => [newTaskItem, ...prevList].sort((a, b) => new Date(b.date) - new Date(a.date)));
             setNewTask("");
         }
+    };
+
+    const deleteTask = (date, task) => {
+        const updatedTasks = taskList.filter(item => !(item.date === date && item.task === task));
+        setTaskList(updatedTasks);
     };
 
     // Tarihe göre görevleri grupla
@@ -83,18 +80,23 @@ function Main() {
         return grouped;
     }, {});
 
-    const renderItem = ({ item }) => (
+    const goToCompleted = () => {
+        navigation.navigate("Completed");
+    };
+
+    const renderItem = ({ item, date }) => (
         <View style={styles.taskBox} >
             <View style={{ flexDirection: "row" }} >
-                <BouncyCheckbox size={25}
+                <BouncyCheckbox
+                    size={25}
                     fillColor="#344e41"
                     unfillColor="#FFFFFF"
                     text={item}
                     innerIconStyle={{ borderWidth: 2 }}
                     textStyle={{ color: "black", fontSize: 14 }}
-                    onPress={(isChecked) => {true}} />
+                    onPress={(isChecked) => true} />
             </View>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => deleteTask(date, item)} >
                 <Iconx style={styles.taskEdit} name="delete-sweep-outline" size={20} color={"black"} />
             </TouchableOpacity>
         </View>
@@ -105,7 +107,7 @@ function Main() {
             <Text style={styles.title} >Merhaba</Text>
             <View style={styles.topBox} >
                 <Text style={styles.date} >Bugün, {currentDate} </Text>
-                <TouchableOpacity style={styles.completedBox} onPress={null} >
+                <TouchableOpacity style={styles.completedBox} onPress={goToCompleted} >
                     <Text style={styles.completed} >Tamamlananlar</Text>
                 </TouchableOpacity>
             </View>
@@ -121,13 +123,16 @@ function Main() {
             <FlatList
                 data={Object.keys(groupedTasks)}
                 keyExtractor={(date, index) => index.toString()}
-                renderItem={({ item: date }) => (
+                renderItem={({ item: dateKey }) => (
                     <View>
-                        <Text style={styles.groupBoxDate}>-{'>'} {date}</Text>
+                        <View style={styles.groupBox}>
+                            <Iconx name="calendar-text" color="black" size={18} />
+                            <Text style={styles.groupBoxDate}> {dateKey}</Text>
+                        </View>
                         <FlatList
-                            data={groupedTasks[date]}
+                            data={groupedTasks[dateKey]}
                             keyExtractor={(item, index) => index.toString()}
-                            renderItem={renderItem}
+                            renderItem={({ item }) => renderItem({ item, date: dateKey })}
                         />
                     </View>
                 )}

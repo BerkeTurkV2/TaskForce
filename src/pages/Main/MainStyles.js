@@ -74,8 +74,13 @@ export default StyleSheet.create({
         marginBottom: 10,
         borderRadius: 12,
     },
+    groupBox:{
+        flexDirection: "row",  
+        alignItems: "center", 
+        marginBottom: 8, 
+        marginLeft: 4 
+    },
     groupBoxDate: {
-        marginBottom: 8,
         color: "black",
     },
     taskText: {

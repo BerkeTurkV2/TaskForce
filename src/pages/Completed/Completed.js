@@ -1,12 +1,24 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 
-function Completed(){
-    return(
-        <View>
-            <Text>Selamlarrr test</Text>
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+function Completed() {
+
+    return (
+        <View >
+            <Text >Tamamlanan Görevler</Text>
+            <FlatList
+                data={null}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <View>
+                        <Text>{item.task}</Text>
+                    </View>
+                )}
+            />
         </View>
-    )
+    );
 };
 
 export default Completed;

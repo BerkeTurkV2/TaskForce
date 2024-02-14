@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 
 import Main from "../pages/Main/Main";
@@ -14,17 +13,36 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
+const MainStack = () => {
+    return (
+        <Stack.Navigator screenOptions={{
+            headerShown: false,
+        }} >
+            <Stack.Screen name="Main" component={Main} initialParams={Main}/>
+            <Stack.Screen name="Completed" component={Completed} options={{
+                headerShown: true,
+                title: "Tamamlanan Görevler",
+                headerTitleAlign: "center",
+                headerTitleStyle: {
+                    color: "green",
+                    fontSize: 18
+                }
+            }} />
+        </Stack.Navigator>
+    )
+}
+
 function Router() {
     return (
         <NavigationContainer>
             <Tab.Navigator barStyle={{ height: 68, backgroundColor: "white" }} activeColor='#344e41' inactiveColor='#595959' shifting={true} >
-                <Tab.Screen name="Main" component={Main} options={{
+                <Tab.Screen name="MainStack" component={MainStack} options={{
                     title: "Görevler",
                     tabBarIcon: () => (
                         <Icon name="library-outline" size={24} color={"#595959"} />
                     )
                 }} />
-                <Tab.Screen name="Completed" component={Completed} options={{
+                <Tab.Screen name="Completed" component={Calendar} options={{
                     title: "Tamamlananlar",
                     tabBarIcon: () => (
                         <Icon name="checkbox-outline" size={24} color={"#595959"} />
