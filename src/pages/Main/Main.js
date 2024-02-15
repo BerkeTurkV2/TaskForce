@@ -57,6 +57,35 @@ function Main({ navigation }) {
         saveTasks();
     }, [taskList]);
 
+    useEffect(() => {
+        const loadCompletedTasks = async () => {
+            try {
+                const savedCompletedTasks = await AsyncStorage.getItem('completedTasks');
+                if (savedCompletedTasks) {
+                    const parsedCompletedTasks = JSON.parse(savedCompletedTasks);
+                    setCompletedTasks(parsedCompletedTasks);
+                }
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+        };
+
+        loadCompletedTasks();
+    }, []);
+
+    // Tamamlanan görevler değiştiğinde AsyncStorage'de güncelleme yap
+    useEffect(() => {
+        const saveCompletedTasks = async () => {
+            try {
+                await AsyncStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+        };
+
+        saveCompletedTasks();
+    }, [completedTasks]);
+
     const addTask = () => {
         if (newTask.trim() !== "") {
             const newTaskItem = { date: currentDate, task: newTask };
@@ -84,23 +113,40 @@ function Main({ navigation }) {
         navigation.navigate("Completed");
     };
 
-    const renderItem = ({ item, date }) => (
-        <View style={styles.taskBox} >
-            <View style={{ flexDirection: "row" }} >
-                <BouncyCheckbox
-                    size={25}
-                    fillColor="#344e41"
-                    unfillColor="#FFFFFF"
-                    text={item}
-                    innerIconStyle={{ borderWidth: 2 }}
-                    textStyle={{ color: "black", fontSize: 14 }}
-                    onPress={(isChecked) => true} />
+    const renderItem = ({ item, date }) => {
+        const handleCheckboxPress = async (isChecked) => {
+
+            if (isChecked) {
+                // Görev tamamlandığında AsyncStorage'deki tamamlananlar listesine ekle
+                const completedTask = { date: date, task: item };
+                setCompletedTasks(prevCompletedTasks => [...prevCompletedTasks, completedTask]);
+              
+                // Ana görev listesinden kaldırma işlemini gerçekleştir ve güncelleme yap
+                const updatedTasks = taskList.filter(task => !(task.date === date && task.task === item));
+                setTaskList(updatedTasks);
+            }
+        };
+
+        return (
+            <View style={styles.taskBox}>
+                <View style={{ flexDirection: "row" }}>
+                    <BouncyCheckbox
+                        size={25}
+                        fillColor="#344e41"
+                        unfillColor="#FFFFFF"
+                        text={item}
+                        innerIconStyle={{ borderWidth: 2 }}
+                        textStyle={{ color: "black", fontSize: 14 }}
+                        onPress={handleCheckboxPress}
+                    />
+                </View>
+                <TouchableOpacity onPress={() => deleteTask(date, item)}>
+                    <Iconx style={styles.taskEdit} name="delete-sweep-outline" size={20} color={"black"} />
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => deleteTask(date, item)} >
-                <Iconx style={styles.taskEdit} name="delete-sweep-outline" size={20} color={"black"} />
-            </TouchableOpacity>
-        </View>
-    );
+        );
+    };
+
 
     return (
         <View style={styles.container} >
