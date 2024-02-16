@@ -115,15 +115,16 @@ function Main({ navigation }) {
 
     const renderItem = ({ item, date }) => {
         const handleCheckboxPress = async (isChecked) => {
-
             if (isChecked) {
                 // Görev tamamlandığında AsyncStorage'deki tamamlananlar listesine ekle
                 const completedTask = { date: date, task: item };
                 setCompletedTasks(prevCompletedTasks => [...prevCompletedTasks, completedTask]);
-              
-                // Ana görev listesinden kaldırma işlemini gerçekleştir ve güncelleme yap
-                const updatedTasks = taskList.filter(task => !(task.date === date && task.task === item));
-                setTaskList(updatedTasks);
+
+                setTimeout(() => {
+                    // Ana görev listesinden kaldırma işlemini gerçekleştir ve güncelleme yap
+                    const updatedTasks = taskList.filter(task => !(task.date === date && task.task === item));
+                    setTaskList(updatedTasks);
+                }, 5000);
             }
         };
 
