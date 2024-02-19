@@ -19,7 +19,7 @@ export default StyleSheet.create({
         alignItems: "center",
     },
     date: {
-        color: "#344e41",
+        color: "black",
         fontWeight: "bold",
     },
     completed: {

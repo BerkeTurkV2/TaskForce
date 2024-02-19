@@ -24,7 +24,7 @@ const MainStack = () => {
                 title: "Tamamlanan Görevler",
                 headerTitleAlign: "center",
                 headerTitleStyle: {
-                    color: "green",
+                    color: "black",
                     fontSize: 18
                 }
             }} />

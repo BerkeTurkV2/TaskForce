@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import styles from "./CompletedStyles";
+import CompletedTasks from '../../components/CompletedTasks/CompletedTasks';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -32,18 +34,17 @@ function Completed() {
     };
 
     return (
-        <View >
-            <Button title='ögeleri SİL' onPress={clearAllData} />
+        <View style={styles.container} >
             <FlatList
                 data={completedList.reverse()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <View>
-                        <Text>{item.date}</Text>
-                        <Text>{item.task}</Text>
-                    </View>
+                    <CompletedTasks date={item.date} task={item.task} />
                 )}
             />
+            <TouchableOpacity style={styles.buttonBox} onPress={clearAllData}>
+                <Text style={styles.buttonText} >Görevleri Temizle</Text>
+            </TouchableOpacity>
         </View>
     );
 };
