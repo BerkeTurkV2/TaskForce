@@ -7,7 +7,7 @@ export default StyleSheet.create({
     buttonBox: {
         backgroundColor: "#588157",
         width: Dimensions.get("window").width / 2.5,
-        alignSelf: 'center',
+        alignSelf: 'flex-end',
         margin: 8,
         borderRadius: 16,
     },
