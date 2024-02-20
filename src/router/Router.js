@@ -18,7 +18,7 @@ const MainStack = () => {
         <Stack.Navigator screenOptions={{
             headerShown: false,
         }} >
-            <Stack.Screen name="Main" component={Main} initialParams={Main}/>
+            <Stack.Screen name="Main" component={Main} initialParams={Main} />
             <Stack.Screen name="Completed" component={Completed} options={{
                 headerShown: true,
                 title: "Tamamlanan Görevler",
@@ -35,7 +35,7 @@ const MainStack = () => {
 function Router() {
     return (
         <NavigationContainer>
-            <Tab.Navigator barStyle={{ height: 68, backgroundColor: "white" }} activeColor='#344e41' inactiveColor='#595959' shifting={true} >
+            <Tab.Navigator barStyle={{ height: 68, backgroundColor: "white" }} activeColor='black' shifting={true} >
                 <Tab.Screen name="MainStack" component={MainStack} options={{
                     title: "Görevler",
                     tabBarIcon: () => (
