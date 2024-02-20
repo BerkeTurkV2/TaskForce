@@ -128,8 +128,8 @@ function Main({ navigation }) {
                     setUp(true);
                 }, 400);
             }
+            setUp(false);
         };
-
         return (
             <View style={styles.taskBox}>
                 <View style={{ flexDirection: "row" }}>
@@ -162,7 +162,7 @@ function Main({ navigation }) {
             </View>
             <View style={styles.row}>
                 <View style={styles.inputBox} >
-                    <TextInput style={styles.input} placeholder='Yeni Görev Yaz' value={newTask} onChangeText={setNewTask} maxLength={40} />
+                    <TextInput style={styles.input} placeholder='Yeni Görev Yaz' value={newTask} onChangeText={setNewTask} maxLength={37} />
                 </View>
                 <TouchableOpacity style={styles.iconBox} onPress={addTask} >
                     <Icon name="send" size={18} color={"white"} />
