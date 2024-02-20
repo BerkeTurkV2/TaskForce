@@ -39,7 +39,7 @@ function Completed() {
                 data={completedList.reverse()}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <CompletedTasks date={item.date} task={item.task} />
+                    <CompletedTasks task={item.task} currentDate={item.currentDate} />
                 )}
             />
             <TouchableOpacity style={styles.buttonBox} onPress={clearAllData}>

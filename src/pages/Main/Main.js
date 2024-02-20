@@ -114,35 +114,37 @@ function Main({ navigation }) {
         navigation.navigate("Completed");
     };
     const renderItem = ({ item, date }) => {
+        const options = { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        const currentDate = new Date().toLocaleDateString('tr-TR', options);
         const handleCheckboxPress = async () => {
-            setUp(false);
+            //setUp(false);
             if (true) {
                 setTimeout(() => {
                     // Görev tamamlandığında AsyncStorage'deki tamamlananlar listesine ekle
-                    const completedTask = { date: date, task: item };
+                    const completedTask = {task: item, currentDate: currentDate };
                     setCompletedTasks(prevCompletedTasks => [...prevCompletedTasks, completedTask]);
 
                     // Ana görev listesinden kaldırma işlemini gerçekleştir ve güncelleme yap
                     const updatedTasks = taskList.filter(t => !(t.date === date && t.task === item));
                     setTaskList(updatedTasks);
                     setUp(true);
-                }, 400);
+                }, 500);
             }
             setUp(false);
         };
         return (
             <View style={styles.taskBox}>
                 <View style={{ flexDirection: "row" }}>
-                        <BouncyCheckbox
-                            size={25}
-                            fillColor="#344e41"
-                            unfillColor="#FFFFFF"
-                            text={item}
-                            innerIconStyle={{ borderWidth: 2 }}
-                            textStyle={{ color: "black", fontSize: 14 }}
-                            disableBuiltInState={up}
-                            onPress={handleCheckboxPress}
-                        />
+                    <BouncyCheckbox
+                        size={25}
+                        fillColor="#344e41"
+                        unfillColor="#FFFFFF"
+                        text={item}
+                        innerIconStyle={{ borderWidth: 2 }}
+                        textStyle={{ color: "black", fontSize: 14 }}
+                        disableBuiltInState={up}
+                        onPress={handleCheckboxPress}
+                    />
                 </View>
                 <TouchableOpacity onPress={() => deleteTask(date, item)}>
                     <Iconx style={styles.taskEdit} name="delete-sweep-outline" size={20} color={"black"} />
