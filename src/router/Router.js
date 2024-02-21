@@ -1,10 +1,12 @@
 import React from 'react';
 import Icon from "react-native-vector-icons/Ionicons";
+import IconX from "react-native-vector-icons/MaterialCommunityIcons";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import Main from "../pages/Main/Main";
 import Completed from '../pages/Completed/Completed';
+
 import Calendar from '../pages/Calendar/Calendar';
-import Categories from '../pages/Categories/Categories';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,7 +19,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 const DefaultTheme = {
     "colors": {
-      "secondaryContainer": "#588157",
+      "secondaryContainer": "#688d67",
     }
   }
 
@@ -40,6 +42,7 @@ const MainStack = () => {
     )
 }
 
+
 function Router() {
     return (
         <SafeAreaProvider>
@@ -48,25 +51,19 @@ function Router() {
                     <Tab.Screen name="MainStack" component={MainStack} options={{
                         title: "Görevler",
                         tabBarIcon: () => (
-                            <Icon name="library-outline" size={22} color={"black"} />
-                        )
-                    }} />
-                    <Tab.Screen name="Completed" component={Calendar} options={{
-                        title: "Tamamlananlar",
-                        tabBarIcon: () => (
-                            <Icon name="checkbox-outline" size={22} color={"black"} />
+                            <Icon name="library-outline" size={22}  />
                         )
                     }} />
                     <Tab.Screen name="Calendar" component={Calendar} options={{
-                        title: "Takvim",
+                        title: "Sayaç",
                         tabBarIcon: () => (
-                            <Icon name="calendar-outline" size={22} color={"black"} />
+                            <IconX name="timer-settings-outline" size={22}  />
                         )
                     }} />
-                    <Tab.Screen name="Categories" component={Categories} options={{
-                        title: "Kategoriler",
+                    <Tab.Screen name="test" component={Calendar} options={{
+                        title: "Takvim",
                         tabBarIcon: () => (
-                            <Icon name="grid-outline" size={22} color={"black"} />
+                            <Icon name="calendar-outline" size={22}  />
                         )
                     }} />
                 </Tab.Navigator>
