@@ -20,7 +20,7 @@ export default StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         end: 20,
-        borderWidth: 3,
+        borderWidth: 2.6,
         borderRadius: 32,
         elevation: 32,
         shadowColor: "#5d7e5c"
@@ -58,9 +58,31 @@ export default StyleSheet.create({
         marginVertical: 8,
         paddingLeft: 10
     },
-    calenderBox: {
+    calenderTitle: {
+        backgroundColor: "pink",
+        textAlign: "center",
+        borderRadius: 12,
         borderWidth: 0.5,
         padding: 10,
         marginVertical: 10
+    },
+    addButton: {
+        backgroundColor: "#5d7e5c",
+        width: Dimensions.get("window").width / 4,
+        alignSelf: "center",
+        borderRadius: 16
+    },
+    addButtonText: {
+        textAlign: "center",
+        padding: 10,
+        color: "white"
+    },
+    closeButton: {
+        position: "absolute",
+        right: 16,
+        top: 10,
+    },
+    selectedDate: {
+        marginBottom: 10,
     }
 });

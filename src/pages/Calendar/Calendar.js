@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { View, Text, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
+
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/AntDesign";
 import styles from "./CalendarStyles";
 
@@ -9,8 +10,22 @@ function CalendarPage() {
     const [title, setTitle] = useState("");
     const [selectedDate, setSelectedDate] = useState('');
 
-    const onDayPress = (day) => {
-        setSelectedDate(day.dateString);
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        const formattedDate = date.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
+        const formattedTime = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    
+        setSelectedDate(`${formattedDate}, ${formattedTime}`);
+        hideDatePicker();
     };
 
     const openModal = () => {
@@ -40,16 +55,25 @@ function CalendarPage() {
                         <View style={styles.separator} />
                         <Text style={styles.acyivityName} >Başlık</Text>
                         <TextInput style={styles.input} placeholder='Başlık yazın. Örn: Tez Sunumu' value={title} onChangeText={setTitle} />
-                        <View style={styles.calenderBox}>
-                          <Calendar
-                            onDayPress={onDayPress}
-                            markedDates={{ [selectedDate]: { selected: true } }}
+
+                        <Text style={styles.acyivityName} >Tarih</Text>
+                        <TouchableOpacity onPress={showDatePicker}>
+                            <Text style={styles.calenderTitle} >Tarih Seçmek için Tıkla</Text>
+                        </TouchableOpacity>
+
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="datetime"
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
                         />
-                        <Text>{selectedDate} </Text> 
-                        </View>
-                        
-                        <TouchableOpacity onPress={closeModal}>
-                            <Text >Kapat</Text>
+                        {selectedDate !== '' && <Text style={styles.selectedDate} >{selectedDate}</Text>}
+                        <TouchableOpacity style={styles.addButton} onPress={null}>
+                            <Text style={styles.addButtonText} >Ekle</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                            <Icon name="closesquare" size={20} color="#494b4c" />
                         </TouchableOpacity>
                     </View>
                 </View>
