@@ -33,7 +33,7 @@ export default StyleSheet.create({
     },
     modalBox: {
         backgroundColor: 'white',
-        width: 300,
+        width: 340,
         padding: 20,
         borderRadius: 16
     },
@@ -57,5 +57,10 @@ export default StyleSheet.create({
         borderRadius: 12,
         marginVertical: 8,
         paddingLeft: 10
+    },
+    calenderBox: {
+        borderWidth: 0.5,
+        padding: 10,
+        marginVertical: 10
     }
 });

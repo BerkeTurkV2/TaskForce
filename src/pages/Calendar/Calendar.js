@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 import Icon from "react-native-vector-icons/AntDesign";
 import styles from "./CalendarStyles";
 
-function Calendar() {
+function CalendarPage() {
     const [modalVisible, setModalVisible] = useState(false);
     const [title, setTitle] = useState("");
+    const [selectedDate, setSelectedDate] = useState('');
+
+    const onDayPress = (day) => {
+        setSelectedDate(day.dateString);
+    };
 
     const openModal = () => {
         setModalVisible(true);
@@ -34,7 +40,14 @@ function Calendar() {
                         <View style={styles.separator} />
                         <Text style={styles.acyivityName} >Başlık</Text>
                         <TextInput style={styles.input} placeholder='Başlık yazın. Örn: Tez Sunumu' value={title} onChangeText={setTitle} />
-                        <Text style={styles.acyivityName}>Zaman</Text>
+                        <View style={styles.calenderBox}>
+                          <Calendar
+                            onDayPress={onDayPress}
+                            markedDates={{ [selectedDate]: { selected: true } }}
+                        />
+                        <Text>{selectedDate} </Text> 
+                        </View>
+                        
                         <TouchableOpacity onPress={closeModal}>
                             <Text >Kapat</Text>
                         </TouchableOpacity>
@@ -45,4 +58,4 @@ function Calendar() {
     )
 };
 
-export default Calendar;
+export default CalendarPage;
