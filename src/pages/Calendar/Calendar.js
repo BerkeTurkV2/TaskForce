@@ -1,16 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/AntDesign";
 import styles from "./CalendarStyles";
+
+import CountDownCard from '../../components/CountDownCard/CountDownCard';
 
 function CalendarPage() {
     const [modalVisible, setModalVisible] = useState(false);
     const [title, setTitle] = useState("");
     const [selectedDate, setSelectedDate] = useState('');
-
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [counterList, setCounterList] = useState([]);
+
+    useEffect(() => {
+        const fetchCounterList = async () => {
+            try {
+                const storedList = await AsyncStorage.getItem('counterList');
+                if (storedList !== null) {
+                    setCounterList(JSON.parse(storedList));
+                }
+            } catch (error) {
+                console.error('Error fetching counter list: ', error);
+            }
+        };
+
+        fetchCounterList();
+    }, []);
+
+    const calculateTimeDifferenceForItem = (item) => {
+        const currentDate = new Date(); // Şu anki tarih ve saat
+        const selectedDateTime = new Date(item.date); // Öğenin tarih ve saat bilgisi
+        console.log("currentDate", currentDate);
+        console.log("selectedDateTime", selectedDateTime);
+        // Zaman farkını hesapla
+        const timeDifference = selectedDateTime - currentDate;
+        console.log("timeDifference", timeDifference);
+        // Farkı gün, saat ve dakikaya çevir
+        const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hoursDifference = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutesDifference = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+        return { days: daysDifference, hours: hoursDifference, minutes: minutesDifference };
+    };
+
+    // Her bir öğe için kalan zamanı ekranda göster
+    const renderTimeDifferenceForItem = (item) => {
+        if (item.date !== '') {
+            const { days, hours, minutes } = calculateTimeDifferenceForItem(item);
+            if (!isNaN(days) && !isNaN(hours) && !isNaN(minutes)) {
+                return `${days} gün ${hours} saat ${minutes} dakika`;
+            } else {
+                return "Geçersiz tarih formatı";
+            }
+        }
+        return '';
+    };
+    
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -20,10 +67,10 @@ function CalendarPage() {
         setDatePickerVisibility(false);
     };
 
-    const handleConfirm = (date) => {
+    const handleConfirmDate = (date) => {
         const formattedDate = date.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
         const formattedTime = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-    
+
         setSelectedDate(`${formattedDate}, ${formattedTime}`);
         hideDatePicker();
     };
@@ -36,10 +83,30 @@ function CalendarPage() {
         setModalVisible(false);
     };
 
+    const addCounterItem = async () => {
+        try {
+            // Yeni öğeyi listeye ekle
+            const newCounterList = [...counterList, { title, date: selectedDate }];
+            // Güncellenmiş listeyi AsyncStorage'e kaydet
+            await AsyncStorage.setItem('counterList', JSON.stringify(newCounterList));
+            setCounterList(newCounterList);
+        } catch (error) {
+            console.error('Error adding counter item: ', error);
+        }
+        setTitle("");
+        setSelectedDate("");
+        setModalVisible(false);
+    };
+
     return (
         <View style={styles.container} >
             <Text style={styles.title} >Planlar - Projeler - Etkinlikler</Text>
             <Text style={styles.underTitle}>Geri Sayım Sayacı</Text>
+            <View>
+                {counterList.map((item, index) => (
+                    <CountDownCard key={index} title={item.title} date={item.date} remainingTime={renderTimeDifferenceForItem(item)} />
+                ))}
+            </View>
             <TouchableOpacity style={styles.addIcon} onPress={openModal} >
                 <Icon name="pluscircle" size={44} color={"#5d7e5c"} />
             </TouchableOpacity>
@@ -64,11 +131,11 @@ function CalendarPage() {
                         <DateTimePickerModal
                             isVisible={isDatePickerVisible}
                             mode="datetime"
-                            onConfirm={handleConfirm}
+                            onConfirm={handleConfirmDate}
                             onCancel={hideDatePicker}
                         />
                         {selectedDate !== '' && <Text style={styles.selectedDate} >{selectedDate}</Text>}
-                        <TouchableOpacity style={styles.addButton} onPress={null}>
+                        <TouchableOpacity style={styles.addButton} onPress={addCounterItem}>
                             <Text style={styles.addButtonText} >Ekle</Text>
                         </TouchableOpacity>
 
