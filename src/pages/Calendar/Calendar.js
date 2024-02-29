@@ -27,7 +27,20 @@ function CalendarPage() {
                 console.error('Error fetching counter list: ', error);
             }
         };
+
+        const fetchSelectedDate = async () => {
+            try {
+                const storedDate = await AsyncStorage.getItem('selectedDate');
+                if (storedDate !== null) {
+                    setTest(new Date(storedDate));
+                }
+            } catch (error) {
+                console.error('Error fetching selected date: ', error);
+            }
+        };
+
         fetchCounterList();
+        fetchSelectedDate();
     }, []);
 
     const showDatePicker = () => {
@@ -40,6 +53,8 @@ function CalendarPage() {
 
     const handleConfirmDate = (date) => {
         setTest(date);
+
+        AsyncStorage.setItem('selectedDate', date.toISOString());
 
         const formattedDate = date.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
         const formattedTime = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
@@ -60,7 +75,7 @@ function CalendarPage() {
     const addCounterItem = async () => {
         try {
             // Yeni öğeyi listeye ekle
-            const newCounterList = [...counterList, { title, date: selectedDate }];
+            const newCounterList = [...counterList, { title, date: selectedDate, x: test, }];
             // Güncellenmiş listeyi AsyncStorage'e kaydet
             await AsyncStorage.setItem('counterList', JSON.stringify(newCounterList));
             setCounterList(newCounterList);
@@ -78,7 +93,7 @@ function CalendarPage() {
             <Text style={styles.underTitle}>Geri Sayım Sayacı</Text>
             <View>
                 {counterList.map((item, index) => (
-                    <CountDownCard key={index} title={item.title} date={item.date} test={test} />
+                    <CountDownCard key={index} title={item.title} date={item.date} test={item.x} />
                 ))}
             </View>
             <TouchableOpacity style={styles.addIcon} onPress={openModal} >

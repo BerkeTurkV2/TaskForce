@@ -19,13 +19,17 @@ function CountDownCard({ title, date, test }) {
             const { days, hours, minutes, seconds } = formatTimeDifference(timeDiff);
 
             const remainingTime = `${days} gün ${hours} saat ${minutes} dakika ${seconds} saniye`;
-        
+
             setRemainingTime(remainingTime);
+
+            if (timeDiff <= 1001) {
+                clearInterval(interval);
+            }
 
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [test]);
 
     const formatTimeDifference = (timeDiff) => {
         // Milisaniyeleri saniyeye dönüştür
