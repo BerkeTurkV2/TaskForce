@@ -15,6 +15,7 @@ export default StyleSheet.create({
     underTitle: {
         color: "black",
         fontWeight: 'bold',
+        marginBottom: 10,
     },
     addIcon:{
         position: 'absolute',

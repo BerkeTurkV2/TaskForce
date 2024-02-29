@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text } from 'react-native';
+import { View, Text, ImageBackground } from 'react-native';
 import styles from "./CountDownCardStyles";
 
 function CountDownCard({ title, date, test }) {
 
-    const [remainingTime, setRemainingTime] = useState('');
+    const [remainigDays, setRemainigDays] = useState('');
+    const [remainigHours, setRemainigHours] = useState('');
+    const [remainigMinutes, setRemainigMinutes] = useState('');
+    const [remainigSeconds, setRemainigSeconds] = useState('');
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -16,11 +19,12 @@ function CountDownCard({ title, date, test }) {
 
             let timeDiff = selDateTime - currentDateTime;
 
-            const { days, hours, minutes, seconds } = formatTimeDifference(timeDiff);
+            const { formattedDays, formattedHours, formattedMinutes, formattedSeconds } = formatTimeDifference(timeDiff);
 
-            const remainingTime = `${days} gün ${hours} saat ${minutes} dakika ${seconds} saniye`;
-
-            setRemainingTime(remainingTime);
+            setRemainigDays(formattedDays);
+            setRemainigHours(formattedHours);
+            setRemainigMinutes(formattedMinutes);
+            setRemainigSeconds(formattedSeconds);
 
             if (timeDiff <= 1001) {
                 clearInterval(interval);
@@ -48,17 +52,44 @@ function CountDownCard({ title, date, test }) {
         // Kalan saatleri hesapla
         hours %= 24;
 
-        return { days, hours, minutes, seconds };
+        const formattedDays = days.toString().padStart(2, '0');
+        const formattedHours = hours.toString().padStart(2, '0');
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+        const formattedSeconds = seconds.toString().padStart(2, '0');
+
+        return { formattedDays, formattedHours, formattedMinutes, formattedSeconds };
     };
 
 
     return (
         <View style={styles.cardContainer} >
-            <View >
-                <Text style={styles.title} >{title}</Text>
-                <Text>tarih : {date}</Text>
-                <Text>kalan zaman : {remainingTime}</Text>
-            </View>
+            <ImageBackground source={require("../../assets/661.jpg")} resizeMode='cover' borderRadius={12} style={styles.backgroundImage} >
+                <View style={styles.overlay} >
+                    <Text style={styles.title} >{title}</Text>
+                    <View style={styles.timeBody} >
+                        <View style={styles.timeBox} >
+                            <Text style={styles.timeTitles} >Gün </Text>
+                            <Text style={styles.remainingTimes}>{remainigDays} </Text>
+                        </View>
+                        <View style={styles.timeBox}>
+                            <Text style={styles.timeTitles}>Saat </Text>
+                            <Text style={styles.remainingTimes}>{remainigHours} </Text>
+                        </View>
+                        <View style={styles.timeBox}>
+                            <Text style={styles.timeTitles}>Dakika </Text>
+                            <Text style={styles.remainingTimes}>{remainigMinutes} </Text>
+                        </View>
+                        <View style={styles.timeBox}>
+                            <Text style={styles.timeTitles}>Saniye </Text>
+                            <Text style={styles.remainingTimes}>{remainigSeconds} </Text>
+                        </View>
+                    </View>
+                    <View style={styles.dateBox} >
+                        <Text style={styles.date} >{date}</Text>
+                    </View>
+                    
+                </View>
+            </ImageBackground>
         </View>
 
     )

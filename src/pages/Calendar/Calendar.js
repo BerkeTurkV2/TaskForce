@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Modal, TextInput, Button } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, TextInput, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -59,7 +59,7 @@ function CalendarPage() {
         const formattedDate = date.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
         const formattedTime = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
         
-        setSelectedDate(`${formattedDate}, ${formattedTime}`);
+        setSelectedDate(`${formattedDate} ${formattedTime}`);
 
         hideDatePicker();
     };
@@ -91,11 +91,11 @@ function CalendarPage() {
         <View style={styles.container} >
             <Text style={styles.title} >Planlar - Projeler - Etkinlikler</Text>
             <Text style={styles.underTitle}>Geri Sayım Sayacı</Text>
-            <View>
+            <ScrollView>
                 {counterList.map((item, index) => (
                     <CountDownCard key={index} title={item.title} date={item.date} test={item.x} />
                 ))}
-            </View>
+            </ScrollView>
             <TouchableOpacity style={styles.addIcon} onPress={openModal} >
                 <Icon name="pluscircle" size={44} color={"#5d7e5c"} />
             </TouchableOpacity>
