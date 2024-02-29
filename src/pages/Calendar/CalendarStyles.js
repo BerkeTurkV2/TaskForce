@@ -21,7 +21,7 @@ export default StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         end: 20,
-        borderWidth: 2.6,
+        borderWidth: 2,
         borderRadius: 32,
         elevation: 32,
         shadowColor: "#5d7e5c"

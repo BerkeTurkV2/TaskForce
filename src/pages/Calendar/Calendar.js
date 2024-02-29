@@ -87,13 +87,24 @@ function CalendarPage() {
         setModalVisible(false);
     };
 
+    const deleteCounterItem = async (index) => {
+        try {
+            const newList = [...counterList];
+            newList.splice(index, 1);
+            await AsyncStorage.setItem('counterList', JSON.stringify(newList));
+            setCounterList(newList);
+        } catch (error) {
+            console.error('Error deleting counter item: ', error);
+        }
+    };
+
     return (
         <View style={styles.container} >
             <Text style={styles.title} >Planlar - Projeler - Etkinlikler</Text>
             <Text style={styles.underTitle}>Geri Sayım Sayacı</Text>
             <ScrollView>
                 {counterList.map((item, index) => (
-                    <CountDownCard key={index} title={item.title} date={item.date} test={item.x} />
+                    <CountDownCard key={index} title={item.title} date={item.date} test={item.x} onDelete={() => deleteCounterItem(index)} />
                 ))}
             </ScrollView>
             <TouchableOpacity style={styles.addIcon} onPress={openModal} >

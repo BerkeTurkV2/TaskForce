@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import styles from "./CountDownCardStyles";
+import Iconx from "react-native-vector-icons/MaterialCommunityIcons";
 
-function CountDownCard({ title, date, test }) {
+function CountDownCard({ title, date, test, onDelete }) {
 
     const [remainigDays, setRemainigDays] = useState('');
     const [remainigHours, setRemainigHours] = useState('');
@@ -60,12 +61,16 @@ function CountDownCard({ title, date, test }) {
         return { formattedDays, formattedHours, formattedMinutes, formattedSeconds };
     };
 
-
     return (
         <View style={styles.cardContainer} >
-            <ImageBackground source={require("../../assets/661.jpg")} resizeMode='cover' borderRadius={12} style={styles.backgroundImage} >
+            <ImageBackground source={require("../../assets/1.jpg")} resizeMode='cover' borderRadius={12} style={styles.backgroundImage} >
                 <View style={styles.overlay} >
-                    <Text style={styles.title} >{title}</Text>
+                    <View style={{ flexDirection: "row" }} >
+                        <Text style={styles.title} >{title}</Text>
+                        <TouchableOpacity onPress={onDelete}>
+                            <Iconx style={styles.deleteButton}  name="delete-sweep-outline" size={20} color={"white"} />
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.timeBody} >
                         <View style={styles.timeBox} >
                             <Text style={styles.timeTitles} >Gün </Text>
@@ -87,11 +92,9 @@ function CountDownCard({ title, date, test }) {
                     <View style={styles.dateBox} >
                         <Text style={styles.date} >{date}</Text>
                     </View>
-                    
                 </View>
             </ImageBackground>
         </View>
-
     )
 };
 

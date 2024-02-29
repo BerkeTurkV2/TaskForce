@@ -2,15 +2,18 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 export default StyleSheet.create({
     cardContainer: {
+        flex: 1,
         alignSelf: 'center',
         marginBottom: 20,
     },
     title: {
+        flex: 1,
         fontSize: 14,
-        marginTop: 2,
+        paddingLeft: 28,
+        marginTop: 4,
         color: "white",
         fontWeight: "bold",
-        textAlign: "center",
+        textAlign: 'center',
     },
     date: {
         textAlign: "center",
@@ -55,4 +58,8 @@ export default StyleSheet.create({
         width: Dimensions.get("screen").width / 1.1,
         height: Dimensions.get("screen").height / 5,
     },
+    deleteButton: {
+        paddingTop: 4,
+        paddingRight: 6,
+    }
 });
