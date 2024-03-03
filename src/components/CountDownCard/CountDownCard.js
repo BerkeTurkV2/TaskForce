@@ -3,7 +3,7 @@ import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import styles from "./CountDownCardStyles";
 import Iconx from "react-native-vector-icons/MaterialCommunityIcons";
 
-function CountDownCard({ title, date, test, onDelete }) {
+function CountDownCard({ title, formalDate, date, onDelete }) {
 
     const [remainigDays, setRemainigDays] = useState('');
     const [remainigHours, setRemainigHours] = useState('');
@@ -15,7 +15,7 @@ function CountDownCard({ title, date, test, onDelete }) {
             const currentDate = new Date();
             let currentDateTime = currentDate.getTime();
 
-            const selDate = new Date(test);
+            const selDate = new Date(date);
             let selDateTime = selDate.getTime();
 
             let timeDiff = selDateTime - currentDateTime;
@@ -34,7 +34,7 @@ function CountDownCard({ title, date, test, onDelete }) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [test]);
+    }, [date]);
 
     const formatTimeDifference = (timeDiff) => {
         // Milisaniyeleri saniyeye dönüştür
@@ -90,7 +90,7 @@ function CountDownCard({ title, date, test, onDelete }) {
                         </View>
                     </View>
                     <View style={styles.dateBox} >
-                        <Text style={styles.date} >{date}</Text>
+                        <Text style={styles.date} >{formalDate}</Text>
                     </View>
                 </View>
             </ImageBackground>

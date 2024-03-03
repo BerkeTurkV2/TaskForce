@@ -60,7 +60,7 @@ export default StyleSheet.create({
         paddingLeft: 10
     },
     calenderTitle: {
-        backgroundColor: "pink",
+        backgroundColor: "#d5bdaf",
         textAlign: "center",
         borderRadius: 12,
         borderWidth: 0.5,

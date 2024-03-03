@@ -9,12 +9,13 @@ import CountDownCard from '../../components/CountDownCard/CountDownCard';
 
 function CalendarPage() {
     const [modalVisible, setModalVisible] = useState(false);
-    const [title, setTitle] = useState("");
-    const [selectedDate, setSelectedDate] = useState('');
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [title, setTitle] = useState("");
+    const [selectedFormalDate, setSelectedFormalDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState('');
     const [counterList, setCounterList] = useState([]);
 
-    const [test, setTest] = useState('');
+    
 
     useEffect(() => {
         const fetchCounterList = async () => {
@@ -32,7 +33,7 @@ function CalendarPage() {
             try {
                 const storedDate = await AsyncStorage.getItem('selectedDate');
                 if (storedDate !== null) {
-                    setTest(new Date(storedDate));
+                    setSelectedDate(new Date(storedDate));
                 }
             } catch (error) {
                 console.error('Error fetching selected date: ', error);
@@ -52,14 +53,14 @@ function CalendarPage() {
     };
 
     const handleConfirmDate = (date) => {
-        setTest(date);
+        setSelectedDate(date);
 
         AsyncStorage.setItem('selectedDate', date.toISOString());
 
         const formattedDate = date.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
         const formattedTime = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
         
-        setSelectedDate(`${formattedDate} ${formattedTime}`);
+        setSelectedFormalDate(`${formattedDate} ${formattedTime}`);
 
         hideDatePicker();
     };
@@ -75,7 +76,7 @@ function CalendarPage() {
     const addCounterItem = async () => {
         try {
             // Yeni öğeyi listeye ekle
-            const newCounterList = [...counterList, { title, date: selectedDate, x: test, }];
+            const newCounterList = [...counterList, { title, formalDate: selectedFormalDate, date: selectedDate, }];
             // Güncellenmiş listeyi AsyncStorage'e kaydet
             await AsyncStorage.setItem('counterList', JSON.stringify(newCounterList));
             setCounterList(newCounterList);
@@ -83,7 +84,7 @@ function CalendarPage() {
             console.error('Error adding counter item: ', error);
         }
         setTitle("");
-        setSelectedDate("");
+        setSelectedFormalDate("");
         setModalVisible(false);
     };
 
@@ -104,7 +105,7 @@ function CalendarPage() {
             <Text style={styles.underTitle}>Geri Sayım Sayacı</Text>
             <ScrollView>
                 {counterList.map((item, index) => (
-                    <CountDownCard key={index} title={item.title} date={item.date} test={item.x} onDelete={() => deleteCounterItem(index)} />
+                    <CountDownCard key={index} title={item.title} formalDate={item.formalDate} date={item.date} onDelete={() => deleteCounterItem(index)} />
                 ))}
             </ScrollView>
             <TouchableOpacity style={styles.addIcon} onPress={openModal} >
@@ -134,7 +135,7 @@ function CalendarPage() {
                             onConfirm={handleConfirmDate}
                             onCancel={hideDatePicker}
                         />
-                        {selectedDate !== '' && <Text style={styles.selectedDate} >{selectedDate}</Text>}
+                        {selectedFormalDate !== '' && <Text style={styles.selectedDate} >{selectedFormalDate}</Text>}
                         <TouchableOpacity style={styles.addButton} onPress={addCounterItem}>
                             <Text style={styles.addButtonText} >Ekle</Text>
                         </TouchableOpacity>

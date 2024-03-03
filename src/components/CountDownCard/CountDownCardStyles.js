@@ -43,13 +43,14 @@ export default StyleSheet.create({
         color: "white",
     },
     remainingTimes: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "bold",
         color: "white",
     },
     overlay: {
         justifyContent: "space-between",
         borderRadius: 12,
+        borderBottomWidth: 6,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         height: Dimensions.get("screen").height / 5,
     },
