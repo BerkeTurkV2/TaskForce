@@ -24,10 +24,10 @@ function Completed() {
         loadTasks();
     }, []);
 
-    const clearAllData = async () => {
+    const clearData = async () => {
         try {
-            await AsyncStorage.clear();
-            console.log("Tüm veriler başarıyla silindi.");
+            await AsyncStorage.removeItem('completedTasks');
+            console.log("Veriler başarıyla silindi.");
         } catch (error) {
             console.error("Verileri silerken bir hata oluştu:", error);
         }
@@ -42,7 +42,7 @@ function Completed() {
                     <CompletedTasks task={item.task} currentDate={item.currentDate} />
                 )}
             />
-            <TouchableOpacity style={styles.buttonBox} onPress={clearAllData}>
+            <TouchableOpacity style={styles.buttonBox} onPress={clearData}>
                 <Text style={styles.buttonText} >Görevleri Temizle</Text>
             </TouchableOpacity>
         </View>

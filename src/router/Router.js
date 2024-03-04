@@ -6,12 +6,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Main from "../pages/Main/Main";
 import Completed from '../pages/Completed/Completed';
 
-import Calendar from '../pages/Calendar/Calendar';
+import Countdown from '../pages/Countdown/Countdown';
+
+import Reminder from '../pages/Reminder/Reminder';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-//import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 
 const Stack = createNativeStackNavigator();
@@ -54,13 +54,13 @@ function Router() {
                             <Icon name="library-outline" size={22}  />
                         )
                     }} />
-                    <Tab.Screen name="Calendar" component={Calendar} options={{
+                    <Tab.Screen name="Countdown" component={Countdown} options={{
                         title: "Sayaç",
                         tabBarIcon: () => (
                             <IconX name="timer-settings-outline" size={22}  />
                         )
                     }} />
-                    <Tab.Screen name="test" component={Calendar} options={{
+                    <Tab.Screen name="Reminder" component={Reminder} options={{
                         title: "Takvim",
                         tabBarIcon: () => (
                             <Icon name="calendar-outline" size={22}  />

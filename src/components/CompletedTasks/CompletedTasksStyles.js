@@ -9,6 +9,7 @@ export default StyleSheet.create({
         borderTopLeftRadius: 16,
         borderBottomRightRadius: 16,
         borderWidth: 0.8,
+        borderBottomWidth: 3,
     },
     taskText: {
         color: "black",

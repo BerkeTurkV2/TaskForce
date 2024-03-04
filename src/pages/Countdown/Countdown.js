@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Modal, TextInput, ScrollView } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/AntDesign";
-import styles from "./CalendarStyles";
+import styles from "./CountdownStyles";
 
 import CountDownCard from '../../components/CountDownCard/CountDownCard';
 
@@ -14,8 +14,7 @@ function CalendarPage() {
     const [selectedFormalDate, setSelectedFormalDate] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [counterList, setCounterList] = useState([]);
-
-    
+    const [showDateSelectionPrompt, setShowDateSelectionPrompt] = useState(false);
 
     useEffect(() => {
         const fetchCounterList = async () => {
@@ -59,8 +58,9 @@ function CalendarPage() {
 
         const formattedDate = date.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
         const formattedTime = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-        
+
         setSelectedFormalDate(`${formattedDate} ${formattedTime}`);
+        setShowDateSelectionPrompt(false);
 
         hideDatePicker();
     };
@@ -71,21 +71,29 @@ function CalendarPage() {
 
     const closeModal = () => {
         setModalVisible(false);
+        setTitle("");
+        setSelectedFormalDate("");
+        setShowDateSelectionPrompt(false);
     };
 
     const addCounterItem = async () => {
         try {
-            // Yeni öğeyi listeye ekle
-            const newCounterList = [...counterList, { title, formalDate: selectedFormalDate, date: selectedDate, }];
-            // Güncellenmiş listeyi AsyncStorage'e kaydet
-            await AsyncStorage.setItem('counterList', JSON.stringify(newCounterList));
-            setCounterList(newCounterList);
+            if (title !== '' && selectedFormalDate !== '') {
+                // Yeni öğeyi listeye ekle
+                const newCounterList = [...counterList, { title, formalDate: selectedFormalDate, date: selectedDate, }];
+                // Güncellenmiş listeyi AsyncStorage'e kaydet
+                await AsyncStorage.setItem('counterList', JSON.stringify(newCounterList));
+                setCounterList(newCounterList);
+
+                setTitle("");
+                setSelectedFormalDate("");
+                setModalVisible(false);
+            } else {
+                setShowDateSelectionPrompt(true);
+            }
         } catch (error) {
             console.error('Error adding counter item: ', error);
         }
-        setTitle("");
-        setSelectedFormalDate("");
-        setModalVisible(false);
     };
 
     const deleteCounterItem = async (index) => {
@@ -126,7 +134,7 @@ function CalendarPage() {
 
                         <Text style={styles.acyivityName} >Tarih</Text>
                         <TouchableOpacity onPress={showDatePicker}>
-                            <Text style={styles.calenderTitle} >Tarih Seçmek için Tıkla</Text>
+                            <Text style={styles.calenderTitle} >{showDateSelectionPrompt ? "Tarih Seçilmedi! Lütfen Tarih Seçin." : "Tarih Seçmek için Tıkla"}</Text>
                         </TouchableOpacity>
 
                         <DateTimePickerModal
