@@ -1,58 +1,109 @@
-import React, { useState } from 'react';
-import { View, Text, Modal, TextInput, Button } from 'react-native';
-import { Calendar }  from 'react-native-big-calendar';
-
-// Takvim bileşenini oluşturmak için gerekli ayarlamalar
-//BigCalendar.setLocale('tr-TR');
+import React, { useState, PureComponent } from 'react';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { Agenda, LocaleConfig } from 'react-native-calendars';
+import moment from 'moment';
 
 import styles from "./ReminderStyles";
 
+LocaleConfig.locales['tr'] = {
+    monthNames: [
+        'Ocak',
+        'Şubat',
+        'Mart',
+        'Nisan',
+        'Mayıs',
+        'Haziran',
+        'Temmuz',
+        'Ağustos',
+        'Eylül',
+        'Ekim',
+        'Kasım',
+        'Aralık'
+    ],
+    monthNamesShort: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+    dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+    dayNamesShort: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'],
+    today: "Bugün"
+};
+
+LocaleConfig.defaultLocale = 'tr';
+
+// PureComponent olarak tanımlanan CustomAgendaItem bileşeni
+class CustomAgendaItem extends PureComponent {
+    render() {
+        const { item } = this.props;
+        return (
+            <View style={styles.itemBox}>
+                <Text style={styles.eventTitle} >{item.name}</Text>
+            </View>
+        );
+    }
+}
+
 function Reminder() {
+    const [selectedDate, setSelectedDate] = useState(moment().format('YYYY-MM-DD'));
+    const [events, setEvents] = useState({});
+    const [eventName, setEventName] = useState('');
 
-    const [modalVisible, setModalVisible] = useState(false);
-    const [events, setEvents] = useState([]);
-    const [selectedDate, setSelectedDate] = useState('');
-    const [eventTitle, setEventTitle] = useState('');
-
-    const handleDateSelected = (event) => {
-        setSelectedDate(event.startDate);
-        setModalVisible(true);
+    const handleDayPress = (day) => {
+        setSelectedDate(day.dateString || moment().format('YYYY-MM-DD'));
     };
 
     const handleAddEvent = () => {
-        setEvents([...events, { title: eventTitle, startDate: selectedDate }]);
-        setModalVisible(false);
+        if (eventName) {
+            const newEvent = {
+                name: eventName,
+            };
+            setEvents({
+                ...events,
+                [selectedDate]: [...(events[selectedDate] || []), newEvent]
+            });
+            setEventName('');
+        } else {
+            alert('Lütfen notunuzu giriniz.');
+        }
+    };
+
+    const renderEmptyDate = () => {
+        return (
+            <View style={styles.emptyContainer} >
+                <Text style={styles.emptyTitle} >Bugün özel bir şey yok gibi görünüyor.</Text>
+                <View style={styles.noteBox} >
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Notunuzu Yazın. Örn; Lord'un Doğum Günü"
+                        value={eventName}
+                        onChangeText={text => setEventName(text)}
+                    />
+                    <TouchableOpacity style={styles.buttonBox}  onPress={handleAddEvent}>
+                        <Text style={styles.addButton}>Ekle</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
     };
 
     return (
-        <View style={styles.container} >
+        <View style={styles.container}>
             <Text style={styles.title}>Doğum Günleri - Özel Günler</Text>
-            <Text style={styles.underTitle}>Hatırlatıcı</Text>
-            <Calendar  
-                events={events}
-                onSelectEvent={handleDateSelected}
-                activeDate={selectedDate}
-                height={600}
+            <Text style={styles.underTitle}>Ajanda / Notlar</Text>
+            <Agenda
+                style={styles.agendaContainer}
+                theme={{
+                    agendaKnobColor: 'black'
+                }}
+                items={events}
+                hideExtraDays={true}
+                selected={selectedDate}
+                onDayPress={handleDayPress}
+                renderEmptyData={renderEmptyDate}
+                // renderItem yerine CustomAgendaItem bileşeni kullanılıyor
+                renderItem={(item) => <CustomAgendaItem item={item} />}
             />
-            <Modal
-                visible={modalVisible}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Başlık"
-                            onChangeText={(text) => setEventTitle(text)}
-                        />
-                        <Button title="Ekle" onPress={handleAddEvent} />
-                    </View>
-                </View>
-            </Modal>
         </View>
     )
 };
 
 export default Reminder;
+
+
