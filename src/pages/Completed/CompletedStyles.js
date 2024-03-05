@@ -1,11 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { colors } from '../../assets/colors/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
     },
     buttonBox: {
-        backgroundColor: "#588157",
+        backgroundColor: colors.primary,
         width: Dimensions.get("window").width / 2.5,
         alignSelf: 'flex-end',
         margin: 8,

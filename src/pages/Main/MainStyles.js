@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from "../../assets/colors/colors";
 
 export default StyleSheet.create({
     container: {
@@ -28,7 +29,7 @@ export default StyleSheet.create({
         fontSize: 12,
     },
     completedBox: {
-        backgroundColor: "#588157",
+        backgroundColor: colors.primary,
         padding: 8,
         borderRadius: 14,
     },
@@ -63,13 +64,13 @@ export default StyleSheet.create({
         height: 40,
         marginLeft: 6,
         borderRadius: 28,
-        backgroundColor: "#588157"
+        backgroundColor: colors.primary
     },
     taskBox: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#a3b18a",
+        backgroundColor: colors.secondary,
         padding: 8,
         marginBottom: 10,
         borderRadius: 12,

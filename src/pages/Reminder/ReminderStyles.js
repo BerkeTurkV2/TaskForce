@@ -1,10 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { colors } from '../../assets/colors/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: "#eeeeee"
+        backgroundColor: colors.background
     },
     title: {
         fontSize: 18,
@@ -15,7 +16,7 @@ export default StyleSheet.create({
     underTitle: {
         color: "black",
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 15,
     },
     emptyContainer: {
         flex: 1,
@@ -43,11 +44,12 @@ export default StyleSheet.create({
         paddingLeft: 10,
     },
     buttonBox: {
-        backgroundColor: "#5d7e5c",
+        backgroundColor: colors.primary,
         width: Dimensions.get("window").width / 4,
         alignSelf: "center",
         borderRadius: 16,
         marginTop: 2,
+        marginBottom: 20,
     },
     addButton: {
         textAlign: "center",
@@ -55,11 +57,16 @@ export default StyleSheet.create({
         color: "white",
     },
     itemBox: {
+        flexDirection: "row",
         marginTop: 40,
         marginRight: 20,
         marginLeft: 10
     },
     eventTitle: {
+        flex: 1,
         fontWeight: "bold",
+    },
+    icon: {
+        paddingLeft: 10,
     }
 });

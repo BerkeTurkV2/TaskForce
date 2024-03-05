@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from "react-native-vector-icons/Ionicons";
 import IconX from "react-native-vector-icons/MaterialCommunityIcons";
+import { colors } from '../assets/colors/colors';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Main from "../pages/Main/Main";
@@ -19,7 +20,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 const DefaultTheme = {
     "colors": {
-      "secondaryContainer": "#688d67",
+      "secondaryContainer": colors.primary,
     }
   }
 

@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../assets/colors/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         marginHorizontal: 20,
         marginTop: 12,
-        backgroundColor: "#a3b18a",
+        backgroundColor: colors.secondary,
         borderTopLeftRadius: 16,
         borderBottomRightRadius: 16,
         borderWidth: 0.8,
@@ -13,7 +14,7 @@ export default StyleSheet.create({
     },
     taskText: {
         color: "black",
-        fontWeight: 'bold',
+        fontWeight: '500',
         paddingTop: 6,
         paddingLeft: 10
     },
@@ -25,7 +26,6 @@ export default StyleSheet.create({
         paddingBottom: 2,
     },
     separator: {
-        //borderBottomWidth: 1,
         borderBottomColor: 'black',
         marginTop: 4,
     }

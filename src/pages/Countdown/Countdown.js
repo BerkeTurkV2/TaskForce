@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Modal, TextInput, ScrollView } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/AntDesign";
+import { colors } from '../../assets/colors/colors';
 import styles from "./CountdownStyles";
 
 import CountDownCard from '../../components/CountDownCard/CountDownCard';
@@ -117,7 +118,7 @@ function CalendarPage() {
                 ))}
             </ScrollView>
             <TouchableOpacity style={styles.addIcon} onPress={openModal} >
-                <Icon name="pluscircle" size={44} color={"#5d7e5c"} />
+                <Icon name="pluscircle" size={44} color={colors.primary} />
             </TouchableOpacity>
             <Modal
                 animationType="fade"
@@ -149,7 +150,7 @@ function CalendarPage() {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                            <Icon name="closesquare" size={20} color="#494b4c" />
+                            <Icon name="closesquare" size={20} color={colors.closesquare} />
                         </TouchableOpacity>
                     </View>
                 </View>

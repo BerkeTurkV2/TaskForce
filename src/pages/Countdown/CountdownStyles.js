@@ -1,10 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { colors } from '../../assets/colors/colors';
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: "#eeeeee"
+        backgroundColor: colors.background
     },
     title: {
         fontSize: 18,
@@ -15,7 +16,7 @@ export default StyleSheet.create({
     underTitle: {
         color: "black",
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 15,
     },
     addIcon:{
         position: 'absolute',
@@ -24,13 +25,13 @@ export default StyleSheet.create({
         borderWidth: 2,
         borderRadius: 32,
         elevation: 32,
-        shadowColor: "#5d7e5c"
+        shadowColor: colors.primary
     },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
     },
     modalBox: {
         backgroundColor: 'white',
@@ -60,7 +61,7 @@ export default StyleSheet.create({
         paddingLeft: 10
     },
     calenderTitle: {
-        backgroundColor: "#d5bdaf",
+        backgroundColor: colors.tertiary,
         textAlign: "center",
         borderRadius: 12,
         borderWidth: 0.5,
@@ -68,7 +69,7 @@ export default StyleSheet.create({
         marginVertical: 10
     },
     addButton: {
-        backgroundColor: "#5d7e5c",
+        backgroundColor: colors.primary,
         width: Dimensions.get("window").width / 4,
         alignSelf: "center",
         borderRadius: 16

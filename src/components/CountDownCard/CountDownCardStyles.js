@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { colors } from '../../assets/colors/colors';
 
 export default StyleSheet.create({
     cardContainer: {
@@ -17,7 +18,7 @@ export default StyleSheet.create({
     },
     date: {
         textAlign: "center",
-        color: "#233322",
+        color: "black",
         fontSize: 12,
         fontWeight: "bold",
         padding: 2,
@@ -55,7 +56,7 @@ export default StyleSheet.create({
         height: Dimensions.get("screen").height / 5,
     },
     backgroundImage: {
-        backgroundColor: "#e5e5e5",
+        backgroundColor: colors.background,
         width: Dimensions.get("screen").width / 1.1,
         height: Dimensions.get("screen").height / 5,
     },

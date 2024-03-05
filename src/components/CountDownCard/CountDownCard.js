@@ -64,7 +64,7 @@ function CountDownCard({ title, formalDate, date, onDelete }) {
 
     return (
         <View style={styles.cardContainer} >
-            <ImageBackground source={require("../../assets/1.jpg")} resizeMode='cover' borderRadius={12} style={styles.backgroundImage} >
+            <ImageBackground source={require("../../assets/images/1.jpg")} resizeMode='cover' borderRadius={12} style={styles.backgroundImage} >
                 <View style={styles.overlay} >
                     <View style={{ flexDirection: "row" }} >
                         <Text style={styles.title} >{title}</Text>

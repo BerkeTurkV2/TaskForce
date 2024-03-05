@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Agenda, LocaleConfig } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { colors } from '../../assets/colors/colors';
 import moment from 'moment';
 
 import styles from "./ReminderStyles";
@@ -78,15 +80,6 @@ function Reminder() {
         }
     };
 
-    const clearData = async () => {
-        try {
-            await AsyncStorage.removeItem('events');
-            console.log("Veriler başarıyla silindi.");
-        } catch (error) {
-            console.error("Verileri silerken bir hata oluştu:", error);
-        }
-    };
-
     const deleteEvent = (date, event) => {
         const updatedEvents = {...events};
         updatedEvents[date] = updatedEvents[date].filter(item => item !== event);
@@ -120,17 +113,17 @@ function Reminder() {
         );
     };
 
-    const renderItem = (item) => {
+    const renderItem = useCallback((item) => {
         const date = Object.keys(events).find(date => events[date].includes(item));
         return (
             <View style={styles.itemBox} >
                 <Text style={styles.eventTitle}>{item.name}</Text>
                 <TouchableOpacity onPress={() => deleteEvent(date, item)}>
-                    <Text style={styles.deleteButton}>Sil</Text>
+                    <Icon style={styles.icon} name="delete-sweep-outline" size={18} color={"black"} />
                 </TouchableOpacity>
             </View>
         );
-    };
+    }, [events]);
     
     return (
         <View style={styles.container}>
@@ -141,9 +134,11 @@ function Reminder() {
                 theme={{
                     agendaKnobColor: 'gray',
                     dotColor: "red",
-                    selectedDayBackgroundColor: "#5d7e5c",
+                    agendaTodayColor: colors.primary,
+                    todayTextColor: colors.primary,
+                    selectedDayBackgroundColor: colors.primary,
                 }}
-                maxToRenderPerBatch={10}
+                maxToRenderPerBatch={5}
                 initialNumToRender={5}
                 items={events}
                 hideExtraDays={true}
@@ -152,7 +147,6 @@ function Reminder() {
                 renderEmptyData={renderEmptyDate}
                 renderItem={(item) => renderItem(item)}
             />
-            <Text onPress={clearData} > Herşeyi Sil </Text>
         </View>
     )
 };
