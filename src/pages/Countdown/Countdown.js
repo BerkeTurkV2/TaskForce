@@ -130,7 +130,7 @@ function CalendarPage() {
                         <Text style={styles.modalTitle} >Geri Sayımı Oluştur</Text>
                         <View style={styles.separator} />
                         <Text style={styles.acyivityName} >Başlık</Text>
-                        <TextInput style={styles.input} placeholder='Başlık yazın. Örn: Tez Sunumu' value={title} onChangeText={setTitle} />
+                        <TextInput style={styles.input} placeholder='Başlık yazın. Örn: Tez Sunumu' value={title} onChangeText={setTitle} maxLength={34} />
 
                         <Text style={styles.acyivityName} >Tarih</Text>
                         <TouchableOpacity onPress={showDatePicker}>

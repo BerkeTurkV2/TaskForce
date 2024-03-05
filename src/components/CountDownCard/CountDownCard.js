@@ -20,16 +20,17 @@ function CountDownCard({ title, formalDate, date, onDelete }) {
 
             let timeDiff = selDateTime - currentDateTime;
 
+            if (timeDiff <= 1001) {
+                clearInterval(interval);
+                timeDiff = 0;
+            }
+
             const { formattedDays, formattedHours, formattedMinutes, formattedSeconds } = formatTimeDifference(timeDiff);
 
             setRemainigDays(formattedDays);
             setRemainigHours(formattedHours);
             setRemainigMinutes(formattedMinutes);
             setRemainigSeconds(formattedSeconds);
-
-            if (timeDiff <= 1001) {
-                clearInterval(interval);
-            }
 
         }, 1000);
 
@@ -68,7 +69,7 @@ function CountDownCard({ title, formalDate, date, onDelete }) {
                     <View style={{ flexDirection: "row" }} >
                         <Text style={styles.title} >{title}</Text>
                         <TouchableOpacity onPress={onDelete}>
-                            <Iconx style={styles.deleteButton}  name="delete-sweep-outline" size={20} color={"white"} />
+                            <Iconx style={styles.deleteButton} name="delete-sweep-outline" size={20} color={"white"} />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.timeBody} >
