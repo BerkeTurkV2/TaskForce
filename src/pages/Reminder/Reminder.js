@@ -75,7 +75,7 @@ function Reminder() {
                         value={eventName}
                         onChangeText={text => setEventName(text)}
                     />
-                    <TouchableOpacity style={styles.buttonBox}  onPress={handleAddEvent}>
+                    <TouchableOpacity style={styles.buttonBox} onPress={handleAddEvent}>
                         <Text style={styles.addButton}>Ekle</Text>
                     </TouchableOpacity>
                 </View>
@@ -90,7 +90,9 @@ function Reminder() {
             <Agenda
                 style={styles.agendaContainer}
                 theme={{
-                    agendaKnobColor: 'black'
+                    agendaKnobColor: 'black',
+                    dotColor: "#5d7e5c",
+                    selectedDayBackgroundColor: "#5d7e5c",
                 }}
                 items={events}
                 hideExtraDays={true}

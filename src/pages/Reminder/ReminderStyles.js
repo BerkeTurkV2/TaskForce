@@ -30,7 +30,7 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 16,
-        elevation: 16,
+        elevation: 12,
     },
     noteBox: {
         flex: 1,
@@ -40,7 +40,7 @@ export default StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 12,
         marginVertical: 8,
-        paddingLeft: 10
+        paddingLeft: 10,
     },
     buttonBox: {
         backgroundColor: "#5d7e5c",
