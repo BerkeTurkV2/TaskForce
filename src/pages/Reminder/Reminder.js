@@ -1,6 +1,7 @@
-import React, { useState, PureComponent } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Agenda, LocaleConfig } from 'react-native-calendars';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 
 import styles from "./ReminderStyles";
@@ -28,22 +29,33 @@ LocaleConfig.locales['tr'] = {
 
 LocaleConfig.defaultLocale = 'tr';
 
-// PureComponent olarak tanımlanan CustomAgendaItem bileşeni
-class CustomAgendaItem extends PureComponent {
-    render() {
-        const { item } = this.props;
-        return (
-            <View style={styles.itemBox}>
-                <Text style={styles.eventTitle} >{item.name}</Text>
-            </View>
-        );
-    }
-}
-
 function Reminder() {
     const [selectedDate, setSelectedDate] = useState(moment().format('YYYY-MM-DD'));
     const [events, setEvents] = useState({});
     const [eventName, setEventName] = useState('');
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const storedEvents = await AsyncStorage.getItem('events');
+                if (storedEvents !== null) {
+                    setEvents(JSON.parse(storedEvents));
+                }
+            } catch (error) {
+                console.error('Error fetching events: ', error);
+            }
+        };
+
+        fetchEvents();
+    }, []);
+
+    const saveEvents = async (updatedEvents) => {
+        try {
+            await AsyncStorage.setItem('events', JSON.stringify(updatedEvents));
+        } catch (error) {
+            console.error('Error saving events: ', error);
+        }
+    };
 
     const handleDayPress = (day) => {
         setSelectedDate(day.dateString || moment().format('YYYY-MM-DD'));
@@ -54,14 +66,21 @@ function Reminder() {
             const newEvent = {
                 name: eventName,
             };
-            setEvents({
+            const updatedEvents = {
                 ...events,
                 [selectedDate]: [...(events[selectedDate] || []), newEvent]
-            });
+            };
+            setEvents(updatedEvents);
+            saveEvents(updatedEvents);
             setEventName('');
         } else {
-            alert('Lütfen notunuzu giriniz.');
+            Alert.alert('Uyarı', 'Lütfen notunuzu giriniz.');
         }
+    };
+
+    const deleteEvent = (date, name) => {
+        const updatedEvents = events.filter(item => !(item.date === date && item.name === name));
+        setEvents(updatedEvents);
     };
 
     const renderEmptyDate = () => {
@@ -83,6 +102,17 @@ function Reminder() {
         );
     };
 
+    const renderItem = (item) => {
+        return (
+            <View style={styles.itemBox} >
+                <Text style={styles.eventTitle}>{item.name}</Text>
+                <TouchableOpacity onPress={() => deleteEvent(date, item)}>
+                    <Text style={styles.deleteButton}>Sil</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Doğum Günleri - Özel Günler</Text>
@@ -91,16 +121,17 @@ function Reminder() {
                 style={styles.agendaContainer}
                 theme={{
                     agendaKnobColor: 'black',
-                    dotColor: "#5d7e5c",
+                    dotColor: "red",
                     selectedDayBackgroundColor: "#5d7e5c",
                 }}
+                maxToRenderPerBatch={10}
+                initialNumToRender={5}
                 items={events}
                 hideExtraDays={true}
                 selected={selectedDate}
                 onDayPress={handleDayPress}
                 renderEmptyData={renderEmptyDate}
-                // renderItem yerine CustomAgendaItem bileşeni kullanılıyor
-                renderItem={(item) => <CustomAgendaItem item={item} />}
+                renderItem={(item) => renderItem(item)}
             />
         </View>
     )
