@@ -78,12 +78,28 @@ function Reminder() {
         }
     };
 
+    const clearData = async () => {
+        try {
+            await AsyncStorage.removeItem('events');
+            console.log("Veriler başarıyla silindi.");
+        } catch (error) {
+            console.error("Verileri silerken bir hata oluştu:", error);
+        }
+    };
+
     const deleteEvent = (date, event) => {
         const updatedEvents = {...events};
         updatedEvents[date] = updatedEvents[date].filter(item => item !== event);
+    
+        // Eğer bu tarih artık etkinlik içermiyorsa, tarihi events nesnesinden kaldır
+        if (updatedEvents[date].length === 0) {
+            delete updatedEvents[date];
+        }
+    
         setEvents(updatedEvents);
-        saveEvents(updatedEvents); 
+        saveEvents(updatedEvents); // AsyncStorage'deki kayıtları güncelle
     };
+    
     
     const renderEmptyDate = () => {
         return (
@@ -123,7 +139,7 @@ function Reminder() {
             <Agenda
                 style={styles.agendaContainer}
                 theme={{
-                    agendaKnobColor: 'black',
+                    agendaKnobColor: 'gray',
                     dotColor: "red",
                     selectedDayBackgroundColor: "#5d7e5c",
                 }}
@@ -136,6 +152,7 @@ function Reminder() {
                 renderEmptyData={renderEmptyDate}
                 renderItem={(item) => renderItem(item)}
             />
+            <Text onPress={clearData} > Herşeyi Sil </Text>
         </View>
     )
 };
