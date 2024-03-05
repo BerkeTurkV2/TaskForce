@@ -78,11 +78,13 @@ function Reminder() {
         }
     };
 
-    const deleteEvent = (date, name) => {
-        const updatedEvents = events.filter(item => !(item.date === date && item.name === name));
+    const deleteEvent = (date, event) => {
+        const updatedEvents = {...events};
+        updatedEvents[date] = updatedEvents[date].filter(item => item !== event);
         setEvents(updatedEvents);
+        saveEvents(updatedEvents); 
     };
-
+    
     const renderEmptyDate = () => {
         return (
             <View style={styles.emptyContainer} >
@@ -103,6 +105,7 @@ function Reminder() {
     };
 
     const renderItem = (item) => {
+        const date = Object.keys(events).find(date => events[date].includes(item));
         return (
             <View style={styles.itemBox} >
                 <Text style={styles.eventTitle}>{item.name}</Text>
@@ -112,7 +115,7 @@ function Reminder() {
             </View>
         );
     };
-
+    
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Doğum Günleri - Özel Günler</Text>
