@@ -101,7 +101,7 @@ function Reminder() {
                 <View style={styles.noteBox} >
                     <TextInput
                         style={styles.input}
-                        placeholder="Notunuzu Yazın. Örn; Lord'un Doğum Günü"
+                        placeholder="Notunuzu Yazın. Örn; Berke'nin Doğum Günü"
                         value={eventName}
                         onChangeText={text => setEventName(text)}
                     />

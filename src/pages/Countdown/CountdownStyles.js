@@ -20,7 +20,7 @@ export default StyleSheet.create({
     },
     addIcon:{
         position: 'absolute',
-        bottom: 20,
+        bottom: 10,
         end: 20,
         borderWidth: 2,
         borderRadius: 32,
