@@ -1,4 +1,4 @@
-package com.taskforce
+package com.taskforceTime
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
