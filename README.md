@@ -1,5 +1,9 @@
 # Task Force
 
+### Google Play Store indirme linki : 
+
+- https://play.google.com/store/apps/details?id=com.taskforceTime
+
 ## Uygulama içi örnek ekran görüntüleri
 
 ### Görev ekleme ekranı
