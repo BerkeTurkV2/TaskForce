@@ -101,7 +101,7 @@ export default StyleSheet.create({
         marginVertical: 10,
         paddingHorizontal: 16,
         paddingVertical: 12,
-        fontSize: 16,
+        fontSize: 12,
         backgroundColor: '#fafafa',
     },
     buttonBox: {
