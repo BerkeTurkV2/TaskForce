@@ -1,67 +1,115 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { colors } from '../../assets/colors/colors';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
     cardContainer: {
-        flex: 1,
         alignSelf: 'center',
-        marginBottom: 20,
+        marginBottom: 24,
+        borderRadius: 20,
+        overflow: 'hidden',
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 6,
+            },
+            android: {
+                elevation: 8,
+            },
+        }),
     },
     title: {
         flex: 1,
-        fontSize: 15,
-        paddingLeft: 28,
+        fontSize: 18,
+        paddingHorizontal: 16,
         marginTop: 4,
         color: "white",
         fontWeight: "bold",
-        textAlign: 'center',
+    },
+    titleContainer: {
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 12,
+        paddingVertical: 12,
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
     date: {
         textAlign: "center",
-        color: "black",
-        fontSize: 12,
-        fontWeight: "bold",
-        padding: 2,
+        color: "#333",
+        fontSize: 14,
+        fontWeight: "600",
+        padding: 8,
     },
     dateBox: {
         alignSelf: "center",
-        width: Dimensions.get("screen").width / 1.6,
+        width: width * 0.7,
         backgroundColor: "white",
-        borderRadius: 4,
-        borderWidth: 2,
+        borderRadius: 16,
+        marginBottom: 12,
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 3,
+            },
+            android: {
+                elevation: 4,
+            },
+        }),
     },
     timeBody: {
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-around",
+        paddingHorizontal: 10,
+        paddingVertical: 20,
     },
     timeBox: {
         alignItems: "center",
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderRadius: 12,
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        minWidth: width * 0.18,
         margin: 4,
     },
     timeTitles: {
         fontSize: 14,
         fontWeight: "bold",
         color: "white",
+        marginBottom: 4,
     },
     remainingTimes: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: "bold",
         color: "white",
     },
     overlay: {
         justifyContent: "space-between",
-        borderRadius: 12,
-        borderBottomWidth: 6,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        height: Dimensions.get("screen").height / 5,
+        borderRadius: 20,
+        overflow: 'hidden',
+        height: height / 4.5,
     },
     backgroundImage: {
-        backgroundColor: colors.background,
-        width: Dimensions.get("screen").width / 1.1,
-        height: Dimensions.get("screen").height / 5,
+        width: width * 0.9,
+        height: height / 4.5,
     },
     deleteButton: {
-        paddingTop: 4,
-        paddingRight: 6,
+        padding: 8,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        borderRadius: 20,
+        marginRight: 8,
+    },
+    expiredText: {
+        color: '#FF5252',
+        fontWeight: 'bold',
+        fontSize: 18,
+        textAlign: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        paddingVertical: 6,
     }
 });
