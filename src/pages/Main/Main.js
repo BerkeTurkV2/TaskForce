@@ -222,9 +222,8 @@ function Main({ navigation }) {
         <Animated.View
             style={[styles.container, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
         >
-            <Text style={styles.title}>Merhaba</Text>
-            <View style={styles.topBox}>
-                <Text style={styles.date}>Bugün, {currentDate}</Text>
+            <View style={styles.headerContainer}>
+                <Text style={styles.title}>Merhaba</Text>
                 <TouchableOpacity
                     style={styles.completedBox}
                     onPress={goToCompleted}
@@ -232,6 +231,9 @@ function Main({ navigation }) {
                 >
                     <Text style={styles.completed}>Tamamlananlar</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={styles.topBox}>
+                <Text style={styles.date}>Bugün, {currentDate}</Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.inputBox}>

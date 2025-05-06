@@ -11,18 +11,23 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 8,
+    },
     title: {
         color: colors.primary,
         fontSize: 28,
         fontWeight: "bold",
-        marginBottom: 8,
         letterSpacing: 0.5,
     },
     topBox: {
         flexDirection: 'row',
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         alignItems: "center",
-        marginVertical: 12,
+        marginVertical: 2,
     },
     date: {
         color: "#333",
